@@ -1,0 +1,1 @@
+docker run --name mysql-8 -v ${arg1}:/docker-entrypoint-initdb.d -v ${arg2}:/var/lib/mysql --env-file ./env -d -p 3306:3306 mysql:8.0.32

@@ -1,0 +1,17 @@
+version: '3'
+services:
+  db:
+    image: mysql:8.0.32
+    container_name: gora-db
+    environment:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_ROOT_HOST: ${MYSQL_ROOT_HOST}
+      TZ: ${MYSQL_TIME_ZONE}
+    ports:
+      - ${DB_PORT}:3306
+    volumes:
+      - ./mysql/initdb:/docker-entrypoint-initdb.d
+      - ./data/mysql:/var/lib/mysql
