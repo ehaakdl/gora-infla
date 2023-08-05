@@ -1,18 +1,22 @@
 create database IF NOT EXISTS gora;
 
 use gora;
-create table privilege
-(
-    seq          bigint auto_increment
-        primary key,
-    display_name varchar(255)                        not null,
-    code         varchar(255)                        not null comment '식별용도',
-    created_at   timestamp default CURRENT_TIMESTAMP not null,
-    updated_at   timestamp default CURRENT_TIMESTAMP not null,
-    deleted_at   timestamp                           null,
-    constraint privilege_pk
-        unique (code)
-);
+
+    create table privilege
+         (
+             seq          bigint auto_increment
+                 primary key,
+             display_name varchar(255)                        not null,
+             code         varchar(255)                        not null comment '식별용도',
+             created_at   timestamp default CURRENT_TIMESTAMP not null,
+             updated_at   timestamp default CURRENT_TIMESTAMP not null,
+             deleted_at   timestamp                           null,
+             created_by   bigint                              not null,
+             updated_by   bigint                              not null,
+             deleted_by   bigint                              null,
+             constraint privilege_pk
+                 unique (code)
+         );
 
 create table role
 (
@@ -23,6 +27,9 @@ create table role
     created_at   timestamp default CURRENT_TIMESTAMP not null,
     updated_at   timestamp default CURRENT_TIMESTAMP not null,
     deleted_at   timestamp                           null,
+    created_by   bigint                              not null,
+    updated_by   bigint                              not null,
+    deleted_by   bigint                              null,
     constraint role_pk
         unique (code)
 );
@@ -33,6 +40,8 @@ create table role_privilege
     role_seq      bigint                              not null,
     created_at    timestamp default CURRENT_TIMESTAMP not null,
     updated_at    timestamp default CURRENT_TIMESTAMP not null,
+    created_by    bigint                              not null,
+    updated_by    bigint                              not null,
     primary key (privilege_seq, role_seq),
     constraint role_privilege_privilege_seq_fk
         foreign key (privilege_seq) references privilege (seq),
@@ -47,7 +56,10 @@ create table social_user
     social_type varchar(20)                         not null comment '구글(google)',
     created_at  timestamp default CURRENT_TIMESTAMP null,
     updated_at  timestamp default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP,
-    deleted_at  timestamp                           null
+    deleted_at  timestamp                           null,
+    created_by  bigint                              not null,
+    updated_by  bigint                              not null,
+    deleted_by  bigint                              null
 );
 
 create table token
@@ -72,6 +84,9 @@ create table user
     deleted_at timestamp                            null,
     social_seq bigint                               null,
     disable    tinyint(1) default 0                 null,
+    created_by bigint                               not null,
+    updated_by bigint                               not null,
+    deleted_by bigint                               null,
     constraint user_social_user_seq_fk
         foreign key (social_seq) references social_user (seq)
 );
