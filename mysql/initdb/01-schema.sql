@@ -91,6 +91,7 @@ create table user
         foreign key (social_seq) references social_user (seq)
 );
 
+-- todo 기본키 컬럼 추가하기
 create table user_role
 (
     role_seq bigint not null,
