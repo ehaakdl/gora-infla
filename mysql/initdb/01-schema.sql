@@ -92,15 +92,15 @@ create table user
 );
 
 -- todo 기본키 컬럼 추가하기
-create table user_role
-(
-    role_seq bigint not null,
-    user_seq bigint not null,
-    primary key (role_seq, user_seq),
-    constraint user_role_role_seq_fk
-        foreign key (role_seq) references role (seq),
-    constraint user_role_user_seq_fk
-        foreign key (user_seq) references user (seq)
-);
+CREATE TABLE `user_role` (
+  `seq` bigint NOT NULL AUTO_INCREMENT,
+  `role_seq` bigint NOT NULL,
+  `user_seq` bigint NOT NULL,
+  PRIMARY KEY (`seq`),
+  UNIQUE KEY `user_role_UN` (`role_seq`,`user_seq`),
+  KEY `user_role_FK_1` (`user_seq`),
+  CONSTRAINT `user_role_FK` FOREIGN KEY (`role_seq`) REFERENCES `role` (`seq`),
+  CONSTRAINT `user_role_FK_1` FOREIGN KEY (`user_seq`) REFERENCES `user` (`seq`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
