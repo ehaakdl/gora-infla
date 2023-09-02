@@ -83,7 +83,7 @@ create table user
     updated_at timestamp  default CURRENT_TIMESTAMP not null,
     deleted_at timestamp                            null,
     social_seq bigint                               null,
-    disable    tinyint(1) default 0                 null,
+    disable    tinyint(1) default 0                 not null,
     created_by bigint     default (-(1))            not null,
     updated_by bigint     default (-(1))            not null,
     deleted_by bigint                               null,
