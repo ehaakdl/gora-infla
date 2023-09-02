@@ -74,22 +74,24 @@ create table token
 
 create table user
 (
-    seq        bigint auto_increment
+	seq        bigint auto_increment
         primary key,
-    email      varchar(255)                         not null,
-    password   varchar(255)                         null,
-    type       varchar(20)                          not null comment 'basic(일반), 소셜가입자(social)',
-    created_at timestamp  default CURRENT_TIMESTAMP not null,
-    updated_at timestamp  default CURRENT_TIMESTAMP not null,
-    deleted_at timestamp                            null,
-    social_seq bigint                               null,
-    disable    tinyint(1) default 0                 not null,
-    created_by bigint     default (-(1))            not null,
-    updated_by bigint     default (-(1))            not null,
-    deleted_by bigint                               null,
+	email      varchar(255)                         not null,
+	password   varchar(255)                         null,
+	type       varchar(20)                          not null comment 'basic(일반), 소셜가입자(social)',
+	created_at timestamp  default CURRENT_TIMESTAMP not null,
+	updated_at timestamp  default CURRENT_TIMESTAMP not null,
+	deleted_at timestamp                            null,
+	social_seq bigint                               null,
+	created_by bigint     default (-(1))            not null,
+	updated_by bigint     default (-(1))            not null,
+	deleted_by bigint                               null,
     constraint user_social_user_seq_fk
-        foreign key (social_seq) references social_user (seq)
+        foreign key (social_seq) references social_user (seq),
+    UNIQUE INDEX email (email) USING BTREE
+
 );
+
 
 -- todo 기본키 컬럼 추가하기
 CREATE TABLE `user_role` (
