@@ -1,99 +1,107 @@
 create database IF NOT EXISTS gora;
 
 use gora;
+-- gora.privilege definition
 
-create table privilege
-(
-    seq          bigint auto_increment
-        primary key,
-    display_name varchar(255)                        not null,
-    code         varchar(255)                        not null comment '식별용도',
-    created_at   timestamp default CURRENT_TIMESTAMP not null,
-    updated_at   timestamp default CURRENT_TIMESTAMP not null,
-    deleted_at   timestamp                           null,
-    created_by   bigint    default (-(1))            not null,
-    updated_by   bigint    default (-(1))            not null,
-    deleted_by   bigint                              null,
-    constraint privilege_pk
-        unique (code)
-);
-
-create table role
-(
-    seq          bigint auto_increment
-        primary key,
-    display_name varchar(255)                        null,
-    code         varchar(255)                        not null comment '식별용도',
-    created_at   timestamp default CURRENT_TIMESTAMP not null,
-    updated_at   timestamp default CURRENT_TIMESTAMP not null,
-    deleted_at   timestamp                           null,
-    created_by   bigint    default (-(1))            not null,
-    updated_by   bigint    default (-(1))            not null,
-    deleted_by   bigint                              null,
-    constraint role_pk
-        unique (code)
-);
-
-create table role_privilege
-(
-    privilege_seq bigint                              not null,
-    role_seq      bigint                              not null,
-    created_at    timestamp default CURRENT_TIMESTAMP not null,
-    updated_at    timestamp default CURRENT_TIMESTAMP not null,
-    created_by    bigint    default (-(1))            not null,
-    updated_by    bigint    default (-(1))            not null,
-    primary key (privilege_seq, role_seq),
-    constraint role_privilege_privilege_seq_fk
-        foreign key (privilege_seq) references privilege (seq),
-    constraint role_privilege_role_seq_fk
-        foreign key (role_seq) references role (seq)
-);
-
-create table social_user
-(
-    seq         bigint auto_increment
-        primary key,
-    social_type varchar(20)                         not null comment '구글(google)',
-    created_at  timestamp default CURRENT_TIMESTAMP null,
-    updated_at  timestamp default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP,
-    deleted_at  timestamp                           null,
-    created_by  bigint    default (-(1))            not null,
-    updated_by  bigint    default (-(1))            not null,
-    deleted_by  bigint                              null
-);
-
-create table token
-(
-    seq              bigint auto_increment
-        primary key,
-    access           varchar(255) not null,
-    access_expire_at timestamp    not null,
-    refresh          varchar(255) not null,
-    user_seq         bigint       not null
-);
-
-create table user
-(
-	seq        bigint auto_increment
-        primary key,
-	email      varchar(255)                         not null,
-	password   varchar(255)                         null,
-	type       varchar(20)                          not null comment 'basic(일반), 소셜가입자(social)',
-	created_at timestamp  default CURRENT_TIMESTAMP not null,
-	updated_at timestamp  default CURRENT_TIMESTAMP not null,
-	deleted_at timestamp                            null,
-	social_seq bigint                               null,
-	created_by bigint     default (-(1))            not null,
-	updated_by bigint     default (-(1))            not null,
-	deleted_by bigint                               null,
-    constraint user_social_user_seq_fk
-        foreign key (social_seq) references social_user (seq),
-    UNIQUE INDEX email (email) USING BTREE
-
-);
+CREATE TABLE `privilege` (
+  `seq` bigint NOT NULL AUTO_INCREMENT,
+  `display_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '식별용도',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_by` bigint NOT NULL DEFAULT (-(1)),
+  `updated_by` bigint NOT NULL DEFAULT (-(1)),
+  `deleted_by` bigint DEFAULT NULL,
+  PRIMARY KEY (`seq`),
+  UNIQUE KEY `privilege_pk` (`code`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- todo 기본키 컬럼 추가하기
+-- gora.`role` definition
+
+CREATE TABLE `role` (
+  `seq` bigint NOT NULL AUTO_INCREMENT,
+  `display_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '식별용도',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_by` bigint NOT NULL DEFAULT (-(1)),
+  `updated_by` bigint NOT NULL DEFAULT (-(1)),
+  `deleted_by` bigint DEFAULT NULL,
+  PRIMARY KEY (`seq`),
+  UNIQUE KEY `role_pk` (`code`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- gora.social_user definition
+
+CREATE TABLE `social_user` (
+  `seq` bigint NOT NULL AUTO_INCREMENT,
+  `social_type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '구글(google)',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_by` bigint NOT NULL DEFAULT (-(1)),
+  `updated_by` bigint NOT NULL DEFAULT (-(1)),
+  `deleted_by` bigint DEFAULT NULL,
+  PRIMARY KEY (`seq`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- gora.token definition
+
+CREATE TABLE `token` (
+  `seq` bigint NOT NULL AUTO_INCREMENT,
+  `access` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `access_expire_at` timestamp NOT NULL,
+  `refresh` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_seq` bigint NOT NULL,
+  `email_verify_seq` bigint DEFAULT NULL,
+  `type` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`seq`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- gora.role_privilege definition
+
+CREATE TABLE `role_privilege` (
+  `seq` bigint NOT NULL AUTO_INCREMENT,
+  `role_seq` bigint NOT NULL,
+  `privilege_seq` bigint NOT NULL,
+  `created_by` bigint NOT NULL DEFAULT '-1',
+  `updated_by` bigint NOT NULL DEFAULT '-1',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`seq`),
+  UNIQUE KEY `role_privilege_UN` (`role_seq`,`privilege_seq`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- gora.`user` definition
+
+CREATE TABLE `user` (
+  `seq` bigint NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'basic(일반), 소셜가입자(social)',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `social_seq` bigint DEFAULT NULL,
+  `created_by` bigint NOT NULL DEFAULT (-(1)),
+  `updated_by` bigint NOT NULL DEFAULT (-(1)),
+  `deleted_by` bigint DEFAULT NULL,
+  PRIMARY KEY (`seq`),
+  UNIQUE KEY `email` (`email`) USING BTREE,
+  KEY `user_social_user_seq_fk` (`social_seq`),
+  CONSTRAINT `user_social_user_seq_fk` FOREIGN KEY (`social_seq`) REFERENCES `social_user` (`seq`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- gora.user_role definition
+
 CREATE TABLE `user_role` (
   `seq` bigint NOT NULL AUTO_INCREMENT,
   `role_seq` bigint NOT NULL,
@@ -103,6 +111,14 @@ CREATE TABLE `user_role` (
   KEY `user_role_FK_1` (`user_seq`),
   CONSTRAINT `user_role_FK` FOREIGN KEY (`role_seq`) REFERENCES `role` (`seq`),
   CONSTRAINT `user_role_FK_1` FOREIGN KEY (`user_seq`) REFERENCES `user` (`seq`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
+-- gora.email_verify definition
+
+CREATE TABLE `email_verify` (
+  `email` varchar(350) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token_seq` bigint NOT NULL,
+  UNIQUE KEY `email_verify_UN` (`token_seq`),
+  CONSTRAINT `email_verify_FK` FOREIGN KEY (`token_seq`) REFERENCES `token` (`seq`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
