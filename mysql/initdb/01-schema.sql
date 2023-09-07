@@ -56,8 +56,8 @@ CREATE TABLE `token` (
   `seq` bigint NOT NULL AUTO_INCREMENT,
   `access` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `access_expire_at` timestamp NOT NULL,
-  `refresh` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_seq` bigint NOT NULL,
+  `refresh` varchar(255) COLLATE utf8mb4_unicode_ci NULL,
+  `user_seq` bigint NULL,
   `email_verify_seq` bigint DEFAULT NULL,
   `type` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`seq`)
