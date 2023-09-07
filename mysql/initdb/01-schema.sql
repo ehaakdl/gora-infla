@@ -119,6 +119,8 @@ CREATE TABLE `user_role` (
 CREATE TABLE `email_verify` (
   `email` varchar(350) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `token_seq` bigint NOT NULL,
+  `seq` bigint NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`seq`),
   UNIQUE KEY `email_verify_UN` (`token_seq`),
   CONSTRAINT `email_verify_FK` FOREIGN KEY (`token_seq`) REFERENCES `token` (`seq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
