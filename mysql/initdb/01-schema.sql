@@ -54,14 +54,16 @@ CREATE TABLE `social_user` (
 
 CREATE TABLE `token` (
   `seq` bigint NOT NULL AUTO_INCREMENT,
-  `access` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `access` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `access_expire_at` timestamp NOT NULL,
-  `refresh` varchar(255) COLLATE utf8mb4_unicode_ci NULL,
-  `user_seq` bigint NULL,
+  `refresh` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_seq` bigint DEFAULT NULL,
   `email_verify_seq` bigint DEFAULT NULL,
-  `type` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`seq`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`seq`),
+  KEY `token_FK` (`email_verify_seq`),
+  CONSTRAINT `token_FK` FOREIGN KEY (`email_verify_seq`) REFERENCES `email_verify` (`seq`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 -- gora.role_privilege definition
@@ -115,6 +117,7 @@ CREATE TABLE `user_role` (
 
 
 -- gora.email_verify definition
+
 CREATE TABLE `email_verify` (
   `email` varchar(350) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `token_seq` bigint NOT NULL,
@@ -123,4 +126,4 @@ CREATE TABLE `email_verify` (
   PRIMARY KEY (`seq`),
   UNIQUE KEY `email_verify_UN` (`token_seq`),
   CONSTRAINT `email_verify_FK` FOREIGN KEY (`token_seq`) REFERENCES `token` (`seq`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
