@@ -1,6 +1,32 @@
 create database IF NOT EXISTS gora;
 
 use gora;
+
+
+-- gora.email_verify definition
+
+CREATE TABLE `email_verify` (
+  `email` varchar(350) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `seq` bigint NOT NULL AUTO_INCREMENT,
+  `verified_expire_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`seq`)
+);
+
+CREATE TABLE `token` (
+  `seq` bigint NOT NULL AUTO_INCREMENT,
+  `access` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `access_expire_at` timestamp NOT NULL,
+  `refresh` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_seq` bigint DEFAULT NULL,
+  `email_verify_seq` bigint DEFAULT NULL,
+  `type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`seq`)
+);
+
+ALTER TABLE `token`
+ADD KEY `token_FK` (`email_verify_seq`),
+ADD CONSTRAINT `token_FK` FOREIGN KEY (`email_verify_seq`) REFERENCES `email_verify` (`seq`);
+
 -- gora.privilege definition
 
 CREATE TABLE `privilege` (
@@ -15,7 +41,7 @@ CREATE TABLE `privilege` (
   `deleted_by` bigint DEFAULT NULL,
   PRIMARY KEY (`seq`),
   UNIQUE KEY `privilege_pk` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 
 -- gora.`role` definition
@@ -32,8 +58,7 @@ CREATE TABLE `role` (
   `deleted_by` bigint DEFAULT NULL,
   PRIMARY KEY (`seq`),
   UNIQUE KEY `role_pk` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+);
 
 -- gora.social_user definition
 
@@ -47,23 +72,9 @@ CREATE TABLE `social_user` (
   `updated_by` bigint NOT NULL DEFAULT (-(1)),
   `deleted_by` bigint DEFAULT NULL,
   PRIMARY KEY (`seq`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 
--- gora.token definition
-
-CREATE TABLE `token` (
-  `seq` bigint NOT NULL AUTO_INCREMENT,
-  `access` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `access_expire_at` timestamp NOT NULL,
-  `refresh` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `user_seq` bigint DEFAULT NULL,
-  `email_verify_seq` bigint DEFAULT NULL,
-  `type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`seq`),
-  KEY `token_FK` (`email_verify_seq`),
-  CONSTRAINT `token_FK` FOREIGN KEY (`email_verify_seq`) REFERENCES `email_verify` (`seq`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 -- gora.role_privilege definition
@@ -78,8 +89,7 @@ CREATE TABLE `role_privilege` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`seq`),
   UNIQUE KEY `role_privilege_UN` (`role_seq`,`privilege_seq`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+); 
 
 -- gora.`user` definition
 
@@ -99,7 +109,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `email` (`email`) USING BTREE,
   KEY `user_social_user_seq_fk` (`social_seq`),
   CONSTRAINT `user_social_user_seq_fk` FOREIGN KEY (`social_seq`) REFERENCES `social_user` (`seq`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 
 -- gora.user_role definition
@@ -113,17 +123,5 @@ CREATE TABLE `user_role` (
   KEY `user_role_FK_1` (`user_seq`),
   CONSTRAINT `user_role_FK` FOREIGN KEY (`role_seq`) REFERENCES `role` (`seq`),
   CONSTRAINT `user_role_FK_1` FOREIGN KEY (`user_seq`) REFERENCES `user` (`seq`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
-
--- gora.email_verify definition
-
-CREATE TABLE `email_verify` (
-  `email` varchar(350) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token_seq` bigint NOT NULL,
-  `seq` bigint NOT NULL AUTO_INCREMENT,
-  `verified_expire_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`seq`),
-  UNIQUE KEY `email_verify_UN` (`token_seq`),
-  CONSTRAINT `email_verify_FK` FOREIGN KEY (`token_seq`) REFERENCES `token` (`seq`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
