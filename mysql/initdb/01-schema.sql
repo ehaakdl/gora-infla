@@ -20,7 +20,9 @@ CREATE TABLE `token` (
   `user_seq` bigint DEFAULT NULL,
   `email_verify_seq` bigint DEFAULT NULL,
   `type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`seq`)
+  PRIMARY KEY (`seq`),
+  UNIQUE INDEX `access` (`access`),
+	UNIQUE INDEX `refresh` (`refresh`)
 );
 
 ALTER TABLE `token`
