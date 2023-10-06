@@ -1,2 +1,5 @@
-프로젝트 경로에서 bin/start.sh 실행한다.
-이렇게하면 필요한 모듈 다 도커로올라가진다.
+# 스펙: mysql:8
+
+# 설명
+- 프로젝트 root 경로에서 bin/start.sh 실행한다.
+- bin/remove.sh 디비 데이터 날리기
