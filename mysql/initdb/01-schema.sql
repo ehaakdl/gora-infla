@@ -8,7 +8,7 @@ use gora;
 CREATE TABLE `email_verify` (
   `email` varchar(350) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `seq` bigint NOT NULL AUTO_INCREMENT,
-  `verified_expire_at` timestamp NULL DEFAULT NULL,
+  `verified_expire_at` timestamp NULL DEFAULT NULL COMMENT '인증만료기간을 의미한다.',
   PRIMARY KEY (`seq`)
 )COMMENT '이메일 인증 요청과 인증 후 만료일에 대한 데이터 담긴다.';
 
@@ -17,7 +17,7 @@ CREATE TABLE `email_verify` (
 
 CREATE TABLE `social_user` (
   `seq` bigint NOT NULL AUTO_INCREMENT,
-  `social_type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '구글(google)',
+  `social_type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '유형: 구글(google)',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE `user` (
   `seq` bigint NOT NULL AUTO_INCREMENT,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'basic(일반), 소셜가입자(social)',
+  `type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '유형: basic(일반), 소셜가입자(social)',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -51,8 +51,8 @@ CREATE TABLE `user` (
 
 CREATE TABLE `privilege` (
   `seq` bigint NOT NULL AUTO_INCREMENT,
-  `display_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '식별용도',
+  `display_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '화면에서 보여지는 이름을 나타낸다.',
+  `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '상세권한을 식별하는 코드',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -68,8 +68,8 @@ CREATE TABLE `privilege` (
 
 CREATE TABLE `role` (
   `seq` bigint NOT NULL AUTO_INCREMENT,
-  `display_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '식별용도',
+  `display_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '화면에서 보여지는 이름을 나타낸다.',
+  `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '권한을 식별하는 코드',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -111,12 +111,12 @@ CREATE TABLE `user_role` (
 
 CREATE TABLE `token` (
   `seq` bigint NOT NULL AUTO_INCREMENT,
-  `access` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `access` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'accessToken 을 의미한다.',
   `access_expire_at` timestamp NOT NULL,
-  `refresh` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `refresh` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'refreshToken 을 의미한다.',
   `user_seq` bigint DEFAULT NULL,
   `email_verify_seq` bigint DEFAULT NULL,
-  `type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '유형: email_verify(이메일 인증), login(로그인)',
   PRIMARY KEY (`seq`),
   UNIQUE INDEX `access` (`access`),
 	UNIQUE INDEX `refresh` (`refresh`)
