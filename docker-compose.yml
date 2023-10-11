@@ -14,5 +14,5 @@ services:
       - ${DB_PORT}:3306
     volumes:
       - ./mysql/initdb:/docker-entrypoint-initdb.d
-      - ./data/mysql:/var/lib/mysql
+      - ./data/mysql:/var/lib/mysql --user 1000
       - ./mysql/conf/my.cnf:/etc/mysql/my.cnf
