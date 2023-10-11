@@ -10,7 +10,7 @@ CREATE TABLE `email_verify` (
   `seq` bigint NOT NULL AUTO_INCREMENT,
   `verified_expire_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`seq`)
-);
+)COMMENT '이메일 인증 요청과 인증 후 만료일에 대한 데이터 담긴다.';
 
 
 -- gora.social_user definition
@@ -25,7 +25,7 @@ CREATE TABLE `social_user` (
   `updated_by` bigint NOT NULL DEFAULT (-(1)),
   `deleted_by` bigint DEFAULT NULL,
   PRIMARY KEY (`seq`)
-);
+)COMMENT 'social 로그인 유저에 대한 데이터 담긴다.';
 
 -- gora.`user` definition
 
@@ -45,7 +45,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `email` (`email`) USING BTREE,
   KEY `user_social_user_seq_fk` (`social_seq`),
   CONSTRAINT `user_social_user_seq_fk` FOREIGN KEY (`social_seq`) REFERENCES `social_user` (`seq`)
-);
+)COMMENT '유저에 대한 데이터 담긴다.';
 
 -- gora.privilege definition
 
@@ -61,7 +61,7 @@ CREATE TABLE `privilege` (
   `deleted_by` bigint DEFAULT NULL,
   PRIMARY KEY (`seq`),
   UNIQUE KEY `privilege_pk` (`code`)
-);
+)COMMENT '상세권한에 대한 데이터 담긴다.';
 
 
 -- gora.`role` definition
@@ -78,7 +78,7 @@ CREATE TABLE `role` (
   `deleted_by` bigint DEFAULT NULL,
   PRIMARY KEY (`seq`),
   UNIQUE KEY `role_pk` (`code`)
-);
+)COMMENT '권한에 대한 데이터 담긴다.';
 
 -- gora.role_privilege definition
 CREATE TABLE `role_privilege` (
@@ -94,7 +94,7 @@ CREATE TABLE `role_privilege` (
   KEY `role_privilege_FK_1` (`privilege_seq`),
   CONSTRAINT `role_privilege_FK` FOREIGN KEY (`role_seq`) REFERENCES `role` (`seq`),
   CONSTRAINT `role_privilege_FK_1` FOREIGN KEY (`privilege_seq`) REFERENCES `privilege` (`seq`)
-);
+)COMMENT '권한과 상세권한에 연관관계에 대한 데이터 담긴다.';
 
 -- gora.user_role definition
 
@@ -107,7 +107,7 @@ CREATE TABLE `user_role` (
   KEY `user_role_FK_1` (`user_seq`),
   CONSTRAINT `user_role_FK` FOREIGN KEY (`role_seq`) REFERENCES `role` (`seq`),
   CONSTRAINT `user_role_FK_1` FOREIGN KEY (`user_seq`) REFERENCES `user` (`seq`)
-);
+)COMMENT '유저와 권한에 연관관계에 대한 데이터 담긴다.';
 
 CREATE TABLE `token` (
   `seq` bigint NOT NULL AUTO_INCREMENT,
@@ -120,7 +120,7 @@ CREATE TABLE `token` (
   PRIMARY KEY (`seq`),
   UNIQUE INDEX `access` (`access`),
 	UNIQUE INDEX `refresh` (`refresh`)
-);
+)COMMENT '토큰에 대한 데이터 담긴다. ex) 이메일 인증, 로그인';
 
 ALTER TABLE `token`
 ADD KEY `token_FK` (`email_verify_seq`),
