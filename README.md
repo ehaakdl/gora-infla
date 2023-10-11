@@ -10,3 +10,6 @@
 
 ##### 데이터 초기화
 - 프로젝트 root 경로에서 bin/remove.sh 실행
+
+##### DB ERD
+<img width="694" alt="image" src="https://github.com/ehaakdl/gora-infla/assets/6407466/11dace91-4297-4315-ab51-cdd0a5a131da">
