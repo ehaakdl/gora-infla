@@ -143,3 +143,81 @@ ADD CONSTRAINT `token_FK` FOREIGN KEY (`email_verify_seq`) REFERENCES `email_ver
 ALTER TABLE `token`
 ADD KEY `token_FK_1` (`user_seq`),
 ADD CONSTRAINT `token_FK_1` FOREIGN KEY (`user_seq`) REFERENCES `user` (`seq`);
+
+-- gora.`map` definition
+
+CREATE TABLE `map` (
+  `seq` int NOT NULL AUTO_INCREMENT,
+  `max_x` float NOT NULL COMMENT '맵에 최대 x축크기',
+  `max_y` float NOT NULL COMMENT '맵에 최대 y축크기',
+  `code` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '클라이언트에서 맵을 식별할 코드다.',
+  `created_at` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_by` bigint NOT NULL DEFAULT '-1',
+  `updated_by` bigint NOT NULL,
+  PRIMARY KEY (`seq`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- gora.sever_info definition
+
+CREATE TABLE `sever_info` (
+  `seq` int NOT NULL AUTO_INCREMENT,
+  `min_x` float NOT NULL COMMENT '서버가 할당된 최소 x좌표범위',
+  `min_y` float NOT NULL COMMENT '서버가 할당된 최소 y좌표범위',
+  `max_x` float NOT NULL COMMENT '서버가 할당된 최대 x좌표범위',
+  `max_y` float NOT NULL COMMENT '서버가 할당된 최대 y좌표범위',
+  `type` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '서버 유형\n- game(게임서버)',
+  `tcp_ports` varchar(3000) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'tcp 포트 배열를 담는다. \n구분자: ,',
+  `udp_ports` varchar(3000) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Udp 포트 배열를 담는다. \n구분자: ,',
+  `ip` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_connect` tinyint NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` bigint NOT NULL DEFAULT '-1',
+  `updated_by` bigint NOT NULL DEFAULT '-1',
+  PRIMARY KEY (`seq`),
+  UNIQUE KEY `seq_UNIQUE` (`seq`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- gora.map_obstacle definition
+
+CREATE TABLE `map_obstacle` (
+  `seq` bigint NOT NULL AUTO_INCREMENT,
+  `map_seq` int NOT NULL,
+  `type` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '장애물 유형',
+  `max_x` float NOT NULL COMMENT '장애물 최대 x크기',
+  `max_y` float NOT NULL COMMENT '장애물 최대 y크기',
+  `map_x_pos` float NOT NULL COMMENT '맵에서 장애물에 x위치',
+  `map_y_pos` float NOT NULL COMMENT '맵에서 장애물에 y위치',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` bigint NOT NULL DEFAULT '-1',
+  `updated_by` bigint NOT NULL DEFAULT '-1',
+  PRIMARY KEY (`seq`),
+  KEY `map_obstacle_FK` (`map_seq`),
+  CONSTRAINT `map_obstacle_FK` FOREIGN KEY (`map_seq`) REFERENCES `map` (`seq`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='맵에 대한 장애물 정보 테이블';
+
+
+-- gora.charator definition
+
+CREATE TABLE `charator` (
+  `seq` bigint NOT NULL AUTO_INCREMENT,
+  `user_seq` bigint NOT NULL,
+  `hp` float NOT NULL COMMENT '현재 체력 상태',
+  `max_hp` float NOT NULL COMMENT '최대 hp',
+  `map_x` float NOT NULL COMMENT 'map 에서의 케릭터 x 위치',
+  `map_y` float NOT NULL COMMENT 'map 에서의 케릭터 y 위치',
+  `map_seq` int NOT NULL COMMENT '케릭터가 어떤 맵인지 담는곳',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` bigint NOT NULL DEFAULT '-1',
+  `updated_by` bigint NOT NULL DEFAULT '-1',
+  PRIMARY KEY (`seq`),
+  KEY `charator_FK` (`user_seq`),
+  KEY `charator_FK_1` (`map_seq`),
+  CONSTRAINT `charator_FK` FOREIGN KEY (`user_seq`) REFERENCES `user` (`seq`),
+  CONSTRAINT `charator_FK_1` FOREIGN KEY (`map_seq`) REFERENCES `map` (`seq`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='유저에 케릭터 담는 테이블';
