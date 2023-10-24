@@ -12,4 +12,4 @@
 - 프로젝트 root 경로에서 bin/remove.sh 실행
 
 ##### DB ERD
-<img width="694" alt="image" src="https://github.com/ehaakdl/gora-infla/assets/6407466/11dace91-4297-4315-ab51-cdd0a5a131da">
+![gora-erd](https://github.com/ehaakdl/gora-infla/assets/6407466/1bd376ac-e6ad-42f8-827c-f2aa8b77d3be)
