@@ -2,7 +2,7 @@ version: '3'
 services:
   db:
     image: mysql:8.0.32
-    container_name: gora-db
+    container_name: db
     environment:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
@@ -16,3 +16,36 @@ services:
       - ./mysql/initdb:/docker-entrypoint-initdb.d
       - ./data/mysql:/var/lib/mysql --user 1000
       - ./mysql/conf/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - gora-net
+
+  server:
+    image: server:1.0.0
+    container_name: server
+    environment:
+      - DB_USERNAME=gora
+      - DB_PASSWORD=1234
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_NAME=gora
+      - MAX_DEFAULT_QUE_SZ=200000
+      - JWT_SECRET_KEY=a89e2da3-704d-4ff0-a803-c8d8dc57cbf1
+      - TCP_ACCEPT_THREAD_COUNT=3
+      - TCP_EVENT_THREAD_COUNT=3
+      - UDP_ACCEPT_EVENT_THREAD_COUNT=3
+      - CLIENT_DATA_BUFFER_CLEAN_DELAY=300000
+      - CLIENT_DATA_BUFFER_EXPIRE_TIME=300000
+    depends_on:
+    - db
+    ports:
+      - 11200:11200
+      - 11112:11112
+      - 11111:11111
+    volumes:
+      - /server:/logs
+    networks:
+      - gora-net
+
+networks:
+  gora-net:
+    driver: bridge
