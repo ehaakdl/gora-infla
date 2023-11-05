@@ -38,9 +38,9 @@ services:
     depends_on:
     - db
     ports:
-      - 11200:11200
-      - 11112:11112
-      - 11111:11111
+      - 11200:11200/tcp
+      - 11112:11112/udp
+      - 11111:11111/udp
     volumes:
       - /server:/logs
     networks:
