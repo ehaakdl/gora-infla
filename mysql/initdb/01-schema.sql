@@ -159,9 +159,9 @@ CREATE TABLE `map` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- gora.sever_info definition
+-- gora.server_info definition
 
-CREATE TABLE `sever_info` (
+CREATE TABLE `server_info` (
   `seq` int NOT NULL AUTO_INCREMENT,
   `min_x` float NOT NULL COMMENT '서버가 할당된 최소 x좌표범위',
   `min_y` float NOT NULL COMMENT '서버가 할당된 최소 y좌표범위',

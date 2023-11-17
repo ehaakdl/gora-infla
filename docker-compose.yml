@@ -19,34 +19,34 @@ services:
     networks:
       - gora-net
 
-  server:
-    image: server:1.0.0
-    container_name: server
-    environment:
-      DB_USERNAME: ${SERVER_DB_USER}
-      DB_PASSWORD: ${SERVER_DB_PASSWORD}
-      DB_HOST: ${SERVER_DB_HOST}
-      DB_PORT: ${SERVER_DB_PORT}
-      DB_NAME: ${SERVER_DB_NAME}
-      MAX_DEFAULT_QUE_SZ: ${SERVER_MAX_DEFAULT_QUE_SZ}
-      JWT_SECRET_KEY: ${SERVER_JWT_SECRET_KEY}
-      TCP_ACCEPT_THREAD_COUNT: ${SERVER_TCP_ACCEPT_THREAD_COUNT}
-      TCP_EVENT_THREAD_COUNT: ${SERVER_TCP_EVENT_THREAD_COUNT}
-      UDP_ACCEPT_EVENT_THREAD_COUNT: ${SERVER_UDP_ACCEPT_EVENT_THREAD_COUNT}
-      CLIENT_DATA_BUFFER_CLEAN_DELAY: ${SERVER_CLIENT_DATA_BUFFER_CLEAN_DELAY}
-      CLIENT_DATA_BUFFER_EXPIRE_TIME: ${SERVER_CLIENT_DATA_BUFFER_EXPIRE_TIME}
-    depends_on:
-    - db
-    ports:
-      - 11200:11200/tcp
-      - 11112:11112/udp
-      - 11111:11111/udp
-      - 5005:5005/tcp
-    volumes:
-      - ./server:/logs
-    networks:
-      - gora-net
-    restart: always
+  # server:
+  #   image: server:1.0.0
+  #   container_name: server
+  #   environment:
+  #     DB_USERNAME: ${SERVER_DB_USER}
+  #     DB_PASSWORD: ${SERVER_DB_PASSWORD}
+  #     DB_HOST: ${SERVER_DB_HOST}
+  #     DB_PORT: ${SERVER_DB_PORT}
+  #     DB_NAME: ${SERVER_DB_NAME}
+  #     MAX_DEFAULT_QUE_SZ: ${SERVER_MAX_DEFAULT_QUE_SZ}
+  #     JWT_SECRET_KEY: ${SERVER_JWT_SECRET_KEY}
+  #     TCP_ACCEPT_THREAD_COUNT: ${SERVER_TCP_ACCEPT_THREAD_COUNT}
+  #     TCP_EVENT_THREAD_COUNT: ${SERVER_TCP_EVENT_THREAD_COUNT}
+  #     UDP_ACCEPT_EVENT_THREAD_COUNT: ${SERVER_UDP_ACCEPT_EVENT_THREAD_COUNT}
+  #     CLIENT_DATA_BUFFER_CLEAN_DELAY: ${SERVER_CLIENT_DATA_BUFFER_CLEAN_DELAY}
+  #     CLIENT_DATA_BUFFER_EXPIRE_TIME: ${SERVER_CLIENT_DATA_BUFFER_EXPIRE_TIME}
+  #   depends_on:
+  #   - db
+  #   ports:
+  #     - 11200:11200/tcp
+  #     - 11112:11112/udp
+  #     - 11111:11111/udp
+  #     - 5005:5005/tcp
+  #   volumes:
+  #     - ./server:/logs
+  #   networks:
+  #     - gora-net
+  #   restart: always
 
 networks:
   gora-net:
