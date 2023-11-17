@@ -167,7 +167,7 @@ CREATE TABLE `server_info` (
   `min_y` float NOT NULL COMMENT '서버가 할당된 최소 y좌표범위',
   `max_x` float NOT NULL COMMENT '서버가 할당된 최대 x좌표범위',
   `max_y` float NOT NULL COMMENT '서버가 할당된 최대 y좌표범위',
-  `type` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '서버 유형\n- game(게임서버)',
+  `type` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '서버 유형\n- master(마스터서버)\n- slave(슬레이브서버)',
   `tcp_ports` varchar(3000) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'tcp 포트 배열를 담는다. \n구분자: ,',
   `udp_ports` varchar(3000) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Udp 포트 배열를 담는다. \n구분자: ,',
   `ip` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
