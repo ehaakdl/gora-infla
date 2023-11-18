@@ -16,5 +16,12 @@
 ##### 데이터 초기화
 - 프로젝트 root 경로에서 bin/remove.sh 실행
 
+
+##### 레디스 명령어 설치 방법
+- [Redis-x64-3.2.100.zip](https://github.com/ehaakdl/gora-infla/files/13399126/Redis-x64-3.2.100.zip)
+```
+설치하고 폴더안에 redis-cli 가 레디스 서버에 명령어 보낼수 있는 툴이다.
+```
+
 ##### DB ERD
 ![gora-erd](https://github.com/ehaakdl/gora-infla/assets/6407466/1bd376ac-e6ad-42f8-827c-f2aa8b77d3be)
