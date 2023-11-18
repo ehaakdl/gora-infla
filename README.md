@@ -3,7 +3,12 @@
 
 ##### list
 - mysql:8.3
+- redis:7.2.3
 
+##### 환경변수
+```
+.env로 시작하는 파일들이 있습니다. ex) local.env
+```
 
 ##### 실행방법
 - 프로젝트 root 경로에서 bin/start.sh 실행한다.

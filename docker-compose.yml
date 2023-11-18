@@ -11,14 +11,26 @@ services:
       MYSQL_ROOT_HOST: ${MYSQL_ROOT_HOST}
       TZ: ${MYSQL_TIME_ZONE}
     ports:
-      - ${DB_PORT}:3306
+      - 3306:3306
     volumes:
       - ./mysql/initdb:/docker-entrypoint-initdb.d
       - ./data/mysql:/var/lib/mysql --user 1000
       - ./mysql/conf/my.cnf:/etc/mysql/my.cnf
     networks:
       - gora-net
-
+      
+  redis:
+    image: redis:7.2.3
+    container_name: redis
+    environment:
+      TZ: ${REDIS_TZ}
+    ports:
+      - 6379:6379
+    volumes:
+      - ./data/redis:/data --user 1000
+      - ./redis/redis.conf:/etc/redis/redis.conf
+    networks:
+      - gora-net
   # server:
   #   image: server:1.0.0
   #   container_name: server
