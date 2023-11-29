@@ -130,7 +130,7 @@ CREATE TABLE `token` (
   `refresh` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'refreshToken 을 의미한다.',
   `user_seq` bigint DEFAULT NULL,
   `email_verify_seq` bigint DEFAULT NULL,
-  `type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '유형: email_verify(이메일 인증), login(로그인)',
+  `type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '유형: email_verify(이메일 인증), login(로그인), oauth_token(소셜 인증 후 받은 토큰 유형)',
   PRIMARY KEY (`seq`),
   UNIQUE INDEX `access` (`access`),
 	UNIQUE INDEX `refresh` (`refresh`)
