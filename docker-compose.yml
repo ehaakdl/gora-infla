@@ -49,6 +49,8 @@ services:
   #     CLIENT_DATA_BUFFER_EXPIRE_TIME: ${SERVER_CLIENT_DATA_BUFFER_EXPIRE_TIME}
   #     ASYNC_CORE_POOL_SIZE: ${ASYNC_CORE_POOL_SIZE}
   #     ASYNC_MAX_POOL_SIZE: ${ASYNC_MAX_POOL_SIZE}
+  #     AES_KEY: ${AES_KEY}
+  #     AES_IV: ${AES_IV}
   #   depends_on:
   #   - db
   #   ports:
