@@ -1,7 +1,7 @@
 ##### 설명 
 ```infla 관련 프로젝트들을 모아두는 곳입니다.```
 
-##### list
+##### 인프라 종류
 - mysql:8.3
 - redis:7.2.3
 
@@ -22,6 +22,10 @@
 ```
 설치하고 폴더안에 redis-cli 가 레디스 서버에 명령어 보낼수 있는 툴이다.
 ```
-
-##### DB ERD
-![gora-erd](https://github.com/ehaakdl/gora-infla/assets/6407466/1bd376ac-e6ad-42f8-827c-f2aa8b77d3be)
+<details>
+  <summary>
+    <h5> DB ERD</h5>
+  </summary>
+  
+  ![gora-erd](https://github.com/ehaakdl/gora-infla/assets/6407466/1bd376ac-e6ad-42f8-827c-f2aa8b77d3be)
+</details>
