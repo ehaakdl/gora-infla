@@ -41,7 +41,7 @@ CREATE TABLE `map` (
   `created_by` bigint NOT NULL DEFAULT '-1',
   `updated_by` bigint NOT NULL,
   PRIMARY KEY (`seq`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='맵 정보 담김';
 
 
 -- gora.privilege definition
