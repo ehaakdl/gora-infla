@@ -62,6 +62,29 @@ services:
   #     - ./server:/logs
   #   networks:
   #     - gora-net
+  #   restart: always  
+  # backend:
+  #   image: backend:1.0.0
+  #   container_name: backend
+  #   environment:
+  #     DB_USERNAME: ${BACKEND_DB_USER}
+  #     DB_PASSWORD: ${BACKEND_DB_PASSWORD}
+  #     DB_HOST: ${BACKEND_DB_HOST}
+  #     DB_PORT: ${BACKEND_DB_PORT}
+  #     DB_NAME: ${BACKEND_DB_NAME}
+  #     APP_FRONT_URL: ${APP_FRONT_URL}
+  #     MAIL_PASSWORD: ${MAIL_PASSWORD}
+  #     MAIL_ID: ${MAIL_ID}
+  #     OAUTH_GOOGLE_CLIENT_SECRET: ${OAUTH_GOOGLE_CLIENT_SECRET}
+  #     JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+  #   # 디비 켜지기전에 올라오면 에러발생, 아래 명령어도 소용없음
+  #   depends_on:
+  #   - db
+  #   ports:
+  #     - 80:8080/tcp
+  #     - 5006:5005/tcp
+  #   networks:
+  #     - gora-net
   #   restart: always
 
 networks:
